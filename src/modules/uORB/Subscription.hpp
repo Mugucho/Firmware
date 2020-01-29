@@ -68,6 +68,7 @@ public:
 		_orb_id(id),
 		_instance(instance)
 	{
+		subscribe();
 	}
 
 	/**
@@ -80,6 +81,7 @@ public:
 		_orb_id((meta == nullptr) ? ORB_ID::INVALID : static_cast<ORB_ID>(meta->o_id)),
 		_instance(instance)
 	{
+		subscribe();
 	}
 
 	~Subscription()
@@ -111,7 +113,7 @@ public:
 	/**
 	 * Check if there is a new update.
 	 * */
-	bool updated() { return advertised() ? (_node->published_message_count() != _last_generation) : false; }
+	bool updated() { return advertised() && (_node->published_message_count() != _last_generation); }
 
 	/**
 	 * Update the struct
